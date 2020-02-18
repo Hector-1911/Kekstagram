@@ -185,7 +185,8 @@ imgScaleMinus.addEventListener('click', function () {
    if (currentCounterValue > 25) {
       currentCounterValue = currentCounterValue - counterValuePerClick;
       imgScaleCounter.value = currentCounterValue + '%';
-      imgOverlayPicture.style = 'transform:scale(' +  + ')';
+      currentImgScale = currentImgScale - 0.25;
+      imgOverlayPicture.style = 'transform:scale(' + currentImgScale + ')';
    }
 });
 
@@ -193,7 +194,8 @@ imgScalePlus.addEventListener('click', function () {
    if (currentCounterValue < 100) {
       currentCounterValue = currentCounterValue + counterValuePerClick;
       imgScaleCounter.value = currentCounterValue + '%';
-      imgOverlayPicture.style = 'transform:scale(' +  + ')';
+      currentImgScale = currentImgScale + 0.25;
+      imgOverlayPicture.style = 'transform:scale(' + currentImgScale + ')';
    }
 });
 
