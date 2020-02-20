@@ -199,3 +199,43 @@ imgScalePlus.addEventListener('click', function () {
    }
 });
 
+var pictureEffect = document.querySelector('.img-upload__effects');
+var defaultPictureNone = pictureEffect.querySelector('#effect-none');
+var effectBar = document.querySelector('.img-upload__effect-level');
+var picturePreview = imgOverlayPicture.querySelector('img');
+
+if (defaultPictureNone.checked) {
+   effectBar.classList.add('hidden');
+};
+
+pictureEffect.addEventListener('click', function (evt) {
+
+   picturePreview.classList.value = "";
+
+   if (evt.target.value != 'none') {
+      effectBar.classList.remove('hidden');
+   } else {
+      effectBar.classList.add('hidden');
+   };
+
+   if (evt.target.value == 'chrome') {
+      picturePreview.classList.add('effects__preview--chrome');
+   };
+
+   if (evt.target.value == 'sepia') {
+      picturePreview.classList.add('effects__preview--sepia');
+   };
+
+   if (evt.target.value == 'marvin') {
+      picturePreview.classList.add('effects__preview--marvin');
+   };
+
+   if (evt.target.value == 'phobos') {
+      picturePreview.classList.add('effects__preview--phobos');
+   };
+
+   if (evt.target.value == 'heat') {
+      picturePreview.classList.add('effects__preview--heat');
+   };
+});
+
