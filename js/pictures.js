@@ -155,6 +155,10 @@ var onImgOverlayEscPress = function (evt) {
 var showImgOverlay = function () {
    uploadImgOverlay.classList.remove('hidden');
    document.addEventListener('keydown', onImgOverlayEscPress);
+
+   if (defaultPictureNone.checked) {
+      effectBar.classList.add('hidden');
+   };
 };
 
 var hiddenImgOverlay = function () {
@@ -172,70 +176,85 @@ imgOverlayCloseButton.addEventListener('click', function () {
 var imgScaleCounter = document.querySelector('.scale__control--value');
 var imgScaleMinus = document.querySelector('.scale__control--smaller');
 var imgScalePlus = document.querySelector('.scale__control--bigger');
-var imgOverlayPicture = document.querySelector('.img-upload__preview');
-var currentCounterValue = 100;
-var counterValuePerClick = 25;
-var currentImgScale = 1;
+var imgOverlayPicture = document.querySelector('.img-upload__preview img');
+var MAX_SCALE_VALUE = 100;
+var MIN_SCALE_VALUE = 25;
+var SCALE_VALUE_STEP = 25;
 
-imgOverlayPicture.style = 'transform:scale(' + currentImgScale + ')';
+var getScaleValue = function () {
+   return parseInt(imgScaleCounter.value, 10);
+};
 
-imgScaleCounter.value = currentCounterValue + '%';
+var setScaleValue = function (value) {
+   if (value >= MIN_SCALE_VALUE && value <= MAX_SCALE_VALUE) {
+      imgScaleCounter.defaultValue = value + '%';
 
-imgScaleMinus.addEventListener('click', function () {
-   if (currentCounterValue > 25) {
-      currentCounterValue = currentCounterValue - counterValuePerClick;
-      imgScaleCounter.value = currentCounterValue + '%';
-      currentImgScale = currentImgScale - 0.25;
-      imgOverlayPicture.style = 'transform:scale(' + currentImgScale + ')';
+      imgOverlayPicture.style.transform = 'scale(' + value / 100 + ')';
    }
-});
+};
 
-imgScalePlus.addEventListener('click', function () {
-   if (currentCounterValue < 100) {
-      currentCounterValue = currentCounterValue + counterValuePerClick;
-      imgScaleCounter.value = currentCounterValue + '%';
-      currentImgScale = currentImgScale + 0.25;
-      imgOverlayPicture.style = 'transform:scale(' + currentImgScale + ')';
+var onScaleButtonClick = function (evt) {
+   if (evt.target === imgScaleMinus) {
+      setScaleValue(getScaleValue() - SCALE_VALUE_STEP);
+   } else if (evt.target === imgScalePlus) {
+      setScaleValue(getScaleValue() + SCALE_VALUE_STEP);
    }
-});
+};
+
+imgScaleCounter.defaultValue = '100%';
+
+imgScaleMinus.addEventListener('click', onScaleButtonClick);
+imgScalePlus.addEventListener('click', onScaleButtonClick);
 
 var pictureEffect = document.querySelector('.img-upload__effects');
 var defaultPictureNone = pictureEffect.querySelector('#effect-none');
 var effectBar = document.querySelector('.img-upload__effect-level');
-var picturePreview = imgOverlayPicture.querySelector('img');
+var effectBarPin = effectBar.querySelector('.effect-level__pin');
+var effectBarValue = effectBar.querySelector('.effect-level__value');
+var effectBarDepth = effectBar.querySelector('.effect-level__depth');
 
-if (defaultPictureNone.checked) {
-   effectBar.classList.add('hidden');
+var setDefaultStyle = function () {
+   imgOverlayPicture.removeAttribute('class');
+   imgOverlayPicture.style.filter = '';
+   effectBarPin.style.left = '100%';
+   effectBarDepth.style.width = '100%';
+   effectBarValue.defaultValue = '100';
 };
 
-pictureEffect.addEventListener('click', function (evt) {
+var addEffect = function (evt) {
+   var effectName = evt.target.value;
 
-   picturePreview.classList.value = "";
+   setDefaultStyle();
 
-   if (evt.target.value != 'none') {
+   if (effectName !== 'none') {
       effectBar.classList.remove('hidden');
+      imgOverlayPicture.classList.add('effects__preview--' + effectName);
    } else {
       effectBar.classList.add('hidden');
-   };
+   }
+};
 
-   if (evt.target.value == 'chrome') {
-      picturePreview.classList.add('effects__preview--chrome');
-   };
+pictureEffect.addEventListener('click', addEffect);
 
-   if (evt.target.value == 'sepia') {
-      picturePreview.classList.add('effects__preview--sepia');
-   };
+var calcEffectLevel = function () {
+   var currentLevel = parseInt(effectBarPin.style.left, 10) / 100;
 
-   if (evt.target.value == 'marvin') {
-      picturePreview.classList.add('effects__preview--marvin');
+   effectBarValue.defaultValue = currentLevel * 100;
+   
+   if (imgOverlayPicture.classList.contains('effects__preview--chrome')) {
+      imgOverlayPicture.style.filter = 'grayscale(' + currentLevel + ')';
+   } else if (imgOverlayPicture.classList.contains('effects__preview--sepia')) {
+      imgOverlayPicture.style.filter = 'sepia(' + currentLevel + ')';
+   } else if (imgOverlayPicture.classList.contains('effects__preview--marvin')) {
+      imgOverlayPicture.style.filter = 'invert(' + currentLevel * 100 + '%' + ')';
+   } else if (imgOverlayPicture.classList.contains('effects__preview--phobos')) {
+      imgOverlayPicture.style.filter = 'blur(' + currentLevel * 3 + 'px' + ')';
+   } else if (imgOverlayPicture.classList.contains('effects__preview--heat')) {
+      imgOverlayPicture.style.filter = 'brightness(' + ((3 - 1) * currentLevel + 1) + ')';
    };
+};
 
-   if (evt.target.value == 'phobos') {
-      picturePreview.classList.add('effects__preview--phobos');
-   };
+effectBarPin.addEventListener('mouseup', calcEffectLevel);
 
-   if (evt.target.value == 'heat') {
-      picturePreview.classList.add('effects__preview--heat');
-   };
-});
+
 
