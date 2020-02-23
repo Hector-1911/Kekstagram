@@ -110,12 +110,32 @@ BigPictureCloseButton.addEventListener('click', function () {
    hiddenBigPicture();
 });
 
-bigPicture.querySelector('.big-picture__img').querySelector('img').src = arrayObjects[0].url;
-bigPicture.querySelector('.likes-count').textContent = arrayObjects[0].likes;
-bigPicture.querySelector('.comments-count').textContent = arrayObjects[0].comments.length;
-bigPicture.querySelector('.social__caption').textContent = arrayObjects[0].description;
-bigPicture.querySelector('.social__comments-loader').classList.add('visually-hidden');
-bigPicture.querySelector('.social__comment-count').classList.add('visually-hidden');
+var bildBigPicture = function (picture) {
+   bigPicture.querySelector('.big-picture__img').querySelector('img').src = picture.url;
+   bigPicture.querySelector('.likes-count').textContent = picture.likes;
+   bigPicture.querySelector('.comments-count').textContent = picture.comments.length;
+   bigPicture.querySelector('.social__caption').textContent = picture.description;
+   bigPicture.querySelector('.social__comments-loader').classList.add('visually-hidden');
+   bigPicture.querySelector('.social__comment-count').classList.add('visually-hidden');
+   
+   importComment(picture);
+   showBigPicture();
+};
+
+var getOnClickImage = function (evt) {
+   var picture = evt.target.getAttribute('src');
+   var pictureObject;
+
+   if (evt.target.classList.contains('picture__img')) {
+      for (var i = 0; i < arrayObjects.length; i++) {
+         if (arrayObjects[i].url === picture) {
+            pictureObject = arrayObjects[i];
+         }
+      };
+   
+      bildBigPicture(pictureObject);
+   }
+};
 
 var commentsTemplate = bigPicture.querySelector('.social__comment');
 
@@ -140,7 +160,7 @@ var importComment = function (object) {
    pictureComment.appendChild(commentFragment);
 };
 
-importComment(arrayObjects[0]);
+pictures.addEventListener('click', getOnClickImage);
 
 var uploadFile = document.querySelector('#upload-file');
 var uploadImgOverlay = document.querySelector('.img-upload__overlay');
@@ -240,7 +260,7 @@ var calcEffectLevel = function () {
    var currentLevel = parseInt(effectBarPin.style.left, 10) / 100;
 
    effectBarValue.defaultValue = currentLevel * 100;
-   
+
    if (imgOverlayPicture.classList.contains('effects__preview--chrome')) {
       imgOverlayPicture.style.filter = 'grayscale(' + currentLevel + ')';
    } else if (imgOverlayPicture.classList.contains('effects__preview--sepia')) {
@@ -255,6 +275,8 @@ var calcEffectLevel = function () {
 };
 
 effectBarPin.addEventListener('mouseup', calcEffectLevel);
+
+
 
 
 
