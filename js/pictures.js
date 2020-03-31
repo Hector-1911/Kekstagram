@@ -226,12 +226,16 @@ imgScaleCounter.defaultValue = '100%';
 imgScaleMinus.addEventListener('click', onScaleButtonClick);
 imgScalePlus.addEventListener('click', onScaleButtonClick);
 
+//PictureEffect//
+
 var pictureEffect = document.querySelector('.img-upload__effects');
 var defaultPictureNone = pictureEffect.querySelector('#effect-none');
 var effectBar = document.querySelector('.img-upload__effect-level');
 var effectBarPin = effectBar.querySelector('.effect-level__pin');
 var effectBarValue = effectBar.querySelector('.effect-level__value');
 var effectBarDepth = effectBar.querySelector('.effect-level__depth');
+var MAX_EFFECT_LEVEL = 100;
+var MIN_EFFECT_LEVEL = 0;
 
 var setDefaultStyle = function () {
    imgOverlayPicture.removeAttribute('class');
@@ -274,7 +278,52 @@ var calcEffectLevel = function () {
    };
 };
 
-effectBarPin.addEventListener('mouseup', calcEffectLevel);
+var setPinPosition = function (value) {
+   effectBarValue.value = Math.round(value);
+   effectBarPin.style.left = value + '%';
+   effectBarDepth.style.width = value + '%';
+};
+
+effectBarPin.addEventListener('mousedown', function (evt) {
+   evt.preventDefault();
+
+   var startCoords = evt.clientX;
+
+   var scaleWidth = effectBarDepth.offsetWidth;
+
+   var onMouseMove = function (moveEvt) {
+      moveEvt.preventDefault();
+
+      var shift = startCoords - moveEvt.clientX;
+
+      startCoords = moveEvt.clientX;
+
+      var currentCoords = effectBarPin.offsetLeft - shift;
+
+      if (currentCoords < MIN_EFFECT_LEVEL) {
+         currentCoords = MIN_EFFECT_LEVEL;
+      } else if (currentCoords > scaleWidth) {
+         currentCoords = scaleWidth;
+      };
+
+      var currentValue = currentCoords * MAX_EFFECT_LEVEL / scaleWidth;
+
+      setPinPosition(currentValue);
+      calcEffectLevel();
+   };
+
+   var onMouseUp = function (upEvt) {
+      upEvt.preventDefault();
+
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
+   };
+
+   document.addEventListener('mousemove', onMouseMove);
+   document.addEventListener('mouseup', onMouseUp);
+});
+
+//HashTag//
 
 var hashtagInput = uploadImgOverlay.querySelector('.text__hashtags');
 
