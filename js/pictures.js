@@ -234,8 +234,9 @@ var effectBar = document.querySelector('.img-upload__effect-level');
 var effectBarPin = effectBar.querySelector('.effect-level__pin');
 var effectBarValue = effectBar.querySelector('.effect-level__value');
 var effectBarDepth = effectBar.querySelector('.effect-level__depth');
+var effectBarContainer = effectBar.querySelector('.effect-level__line');
 var MAX_EFFECT_LEVEL = 100;
-var MIN_EFFECT_LEVEL = 0;
+var MIN_EFFECT_LEVEL = 1;
 
 var setDefaultStyle = function () {
    imgOverlayPicture.removeAttribute('class');
@@ -289,7 +290,7 @@ effectBarPin.addEventListener('mousedown', function (evt) {
 
    var startCoords = evt.clientX;
 
-   var scaleWidth = effectBarDepth.offsetWidth;
+   var scaleWidth = effectBarContainer.offsetWidth;
 
    var onMouseMove = function (moveEvt) {
       moveEvt.preventDefault();
