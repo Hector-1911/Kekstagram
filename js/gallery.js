@@ -1,6 +1,10 @@
 'use strict';
 
 (function () {
+   var onLoad = function (data) {
+      console.log(data);
+   };
+
    var userComments = [
       'Всё отлично!',
       'В целом всё неплохо. Но не всё.',
