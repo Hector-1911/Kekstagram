@@ -5,6 +5,7 @@
     var uploadImgOverlay = document.querySelector('.img-upload__overlay');
     var imgOverlayCloseButton = document.querySelector('#upload-cancel');
     var defaultPictureNone = document.querySelector('#effect-none');
+    var form = document.querySelector('.img-upload__form');
     var ESC_KEYCODE = 27;
 
     window.onImgOverlayEscPress = function (evt) {
@@ -32,5 +33,11 @@
 
     imgOverlayCloseButton.addEventListener('click', function () {
         hiddenImgOverlay();
+    });
+
+    form.addEventListener('submit', function (evt) {
+        window.backend.save(new FormData(form), hiddenImgOverlay, gallery.onError);
+
+        evt.preventDefault();
     });
 })();
