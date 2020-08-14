@@ -1,28 +1,14 @@
 'use strict';
 
 (function () {
+   /// Load and Render Photos ///
+   
    var onLoad = function (data) {
       gallery.photos = data;
       importPhoto(gallery.photos);
    };
 
-   var onError = function (message) {
-      var node = document.createElement('div');
-
-      node.style = 'z-index: 1000; margin: 0 auto; background-color: black; text-align: center; color: red; padding: 10px;'
-      node.style.position = 'fixed';
-      node.style.left = 0;
-      node.style.right = 0;
-      node.style.fontSize = '24px';
-
-      node.textContent = message;
-      document.body.insertAdjacentElement('afterbegin', node);
-      setTimeout(function () {
-         node.remove();
-      }, 10000);
-   };
-
-   window.backend.load(onLoad, onError);
+   window.backend.load(onLoad, window.errorScan.onError);
 
    var photosTemplate = document.querySelector('#picture').content.querySelector('.picture');
 
@@ -48,9 +34,12 @@
       pictures.appendChild(fragment);
    };
 
+   pictures.addEventListener('click', window.preview.getOnClickImage);
+
+   /// Export ///
+
    window.gallery = {
-      pictures: pictures,
-      onError: onError
+      photos: '',
    };
 })();
 
