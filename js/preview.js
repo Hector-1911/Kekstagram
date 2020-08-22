@@ -7,7 +7,7 @@
    /// Show and Hidden Big Picture ///
 
    var onPopupEscPress = function (evt) {
-      if (evt.keyCode === window.keyCode.ESC) {
+      if (evt.keyCode === window.KeyCode.ESC) {
          hiddenBigPicture();
       };
    };
@@ -48,12 +48,12 @@
       var picture = evt.target.getAttribute('src');
       var pictureObject;
 
-      console.log(evt.target);
-
       if (evt.target.classList.contains('picture__img')) {
          for (var i = 0; i < gallery.photos.length; i++) {
             if (gallery.photos[i].url === picture) {
                pictureObject = gallery.photos[i];
+
+               break;
             }
          };
 

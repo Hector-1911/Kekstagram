@@ -2,24 +2,24 @@
 
 (function () {
    /// Hashtag Filters ///
-   
+
    var hashtagInput = document.querySelector('.text__hashtags');
 
    var checkTheSameHashtag = function (array) {
 
-      for (var i = 0; i < array.length; i++) {
-         array[i] = array[i].toLowerCase();
-      };
+      array.forEach(element => {
+         element = element.toLowerCase();
+      });
 
       var counter = 0;
 
-      for (var x = 0; x < array.length; x++) {
-         var currentString = array[x];
+      array.forEach(element => {
+         var currentString = element;
          var hitCounter = 0;
 
-         for (var y = 0; y < array.length; y++) {
+         for (var i = 0; i < array.length; i++) {
 
-            if (currentString === array[y]) {
+            if (currentString === array[i]) {
                hitCounter = hitCounter + 1;
             }
 
@@ -27,7 +27,7 @@
                counter = counter + 1;
             }
          };
-      };
+      });
 
       if (counter > 0) {
          return true;

@@ -1,12 +1,15 @@
 'use strict';
 
-(function () {
-   /// Error Message ///
+/// Обработка ошибок ///
 
+(function () {
+
+   /// Коды ошибок ///
    var Code = {
       SUCCESS: 200,
    };
 
+   /// Callback функция - отрисовки ошибки в DOM дерево ///
    var errorMessage = function (message) {
       var node = document.createElement('div');
 
@@ -23,7 +26,8 @@
       }, 10000);
    };
 
-   window.errorScan = {
+   /// Экспорт в глобальную область видимости ///
+   window.error = {
       onError: errorMessage,
       Code: Code,
    };

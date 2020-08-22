@@ -9,7 +9,7 @@
    var defaultPictureNone = document.querySelector('#effect-none');
 
    var onImgOverlayEscPress = function (evt) {
-      if (evt.keyCode === window.keyCode.ESC) {
+      if (evt.keyCode === window.KeyCode.ESC) {
          hiddenImgOverlay();
       };
    };
@@ -64,7 +64,7 @@
    var form = document.querySelector('.img-upload__form');
 
    form.addEventListener('submit', function (evt) {
-      window.backend.save(new FormData(form), hiddenImgOverlay, window.errorScan.onError);
+      window.backend.send(new FormData(form), hiddenImgOverlay, window.error.onError);
       evt.preventDefault();
    });
 })();
