@@ -1,10 +1,12 @@
 'use strict';
 
+/// Создание и отрисовка большой фотографии (POPUP) в DOM-дерево ///
+
 (function () {
+
+   /// Показ и скрытие POPUP ///
    var bigPicture = document.querySelector('.big-picture');
    var BigPictureCloseButton = bigPicture.querySelector('.big-picture__cancel');
-
-   /// Show and Hidden Big Picture ///
 
    var onPopupEscPress = function (evt) {
       if (evt.keyCode === window.KeyCode.ESC) {
@@ -26,12 +28,9 @@
       });
    };
 
-   BigPictureCloseButton.addEventListener('click', function () {
-      hiddenBigPicture();
-   });
+   BigPictureCloseButton.addEventListener('click', hiddenBigPicture);
 
-   /// Create Big Picture ///
-
+   /// Создание POPUP ///
    var bildBigPicture = function (picture) {
       bigPicture.querySelector('.big-picture__img').querySelector('img').src = picture.url;
       bigPicture.querySelector('.likes-count').textContent = picture.likes;
@@ -44,28 +43,11 @@
       showBigPicture();
    };
 
-   var getOnClickImage = function (evt) {
-      var picture = evt.target.getAttribute('src');
-      var pictureObject;
-
-      if (evt.target.classList.contains('picture__img')) {
-         for (var i = 0; i < gallery.photos.length; i++) {
-            if (gallery.photos[i].url === picture) {
-               pictureObject = gallery.photos[i];
-
-               break;
-            }
-         };
-
-         bildBigPicture(pictureObject);
-      }
-   };
-
-   /// Comments ///
-
+   /// Добавление комментариев в POPUP ///
    var commentsTemplate = bigPicture.querySelector('.social__comment');
 
-   var renderComments = function (object, count) {
+   /// Создание комментария ///
+   var createComments = function (object, count) {
       var commentElement = commentsTemplate.cloneNode(true);
 
       commentElement.querySelector('.social__picture').src = object.comments[count].avatar;
@@ -74,21 +56,21 @@
       return commentElement;
    };
 
+   /// Импорт комментариев ///
    var pictureComment = bigPicture.querySelector('.social__comments');
 
    var importComment = function (object) {
       var commentFragment = document.createDocumentFragment();
 
       for (var i = 0; i < object.comments.length; i++) {
-         commentFragment.appendChild(renderComments(object, i));
+         commentFragment.appendChild(createComments(object, i));
       };
 
       pictureComment.appendChild(commentFragment);
    };
 
-   /// Export ///
-
+   /// Экспорт в глобальную область видимости ///
    window.preview = {
-      getOnClickImage: getOnClickImage,
+      bildBigPicture: bildBigPicture,
    };
 })();

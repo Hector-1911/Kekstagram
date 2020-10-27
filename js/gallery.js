@@ -21,7 +21,7 @@
       return photoElement;
    };
 
-   /// Отрисовка фотографий в галерею///
+   /// Отрисовка фотографий в галерею ///
    var renderPhoto = function (arr) {
       var fragment = document.createDocumentFragment();
 
@@ -41,8 +41,26 @@
       });
    };
 
-   /// Обработчик события 'клика' по фотографии ///
-   // pictures.addEventListener('click', window.preview.getOnClickImage);
+   /// Отслеживаем 'клик' по DOM-элементу гелереи фотографий ///
+   var getOnClickImage = function (evt) {
+
+      /// Сохраняем url фотографии ///
+      var imgUrl = evt.target.getAttribute('src');
+
+      /// Ищем совпадения по url в массиве фотографий, и создаем новый массив /// 
+      var imgArray = window.data.photos.slice().filter(function (element) {
+         return element.url === imgUrl; 
+      });
+
+      /// Создаем объект с информацией о фотографии из нового массива ///
+      var imgObject = imgArray[0];
+
+      /// Отрисовываем большую фотографию на основе полученного объекта ///
+      window.preview.bildBigPicture(imgObject);
+   };
+
+   /// Вешаем обработчик события 'клика' по галереи фотографий ///
+   pictures.addEventListener('click', getOnClickImage);
 
    /// Экспорт в глобальную область видимости ///
    window.gallery = {
