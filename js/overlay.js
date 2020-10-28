@@ -1,7 +1,8 @@
 'use strict';
 
+/// Загрузка фотографии ///
+
 (function () {
-   /// Photo Overlay Show and Hidden ///
 
    var barEffect = document.querySelector('.img-upload__effect-level');
    var uploadImgOverlay = document.querySelector('.img-upload__overlay');
@@ -53,13 +54,9 @@
       document.addEventListener('keydown', onImgOverlayEscPress);
    });
 
-   /// Upload Photo ///
-
    var uploadFile = document.querySelector('#upload-file');
 
    uploadFile.addEventListener('change', showImgOverlay);
-
-   /// Photo Overlay Form Dispatch ///
 
    var form = document.querySelector('.img-upload__form');
 

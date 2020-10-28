@@ -1,7 +1,8 @@
 'use strict';
 
+/// Хештеги к фотографии ///
+
 (function () {
-   /// Hashtag Filters ///
 
    var hashtagInput = document.querySelector('.text__hashtags');
 

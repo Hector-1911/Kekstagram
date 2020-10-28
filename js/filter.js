@@ -1,9 +1,10 @@
 'use strict';
 
+/// Фильтры и масштаб для фотографий ///
+
 (function () {
 
-   /// Photo Filters ///
-
+   /// Фильт фотографии ///
    var filterBigPicture = document.querySelector('.img-upload__preview img');
    var pictureEffect = document.querySelector('.img-upload__effects');
    var effectBar = document.querySelector('.img-upload__effect-level');
@@ -14,6 +15,7 @@
    var MAX_EFFECT_LEVEL = 100;
    var MIN_EFFECT_LEVEL = 1;
 
+   /// Установка стилей по-умолчанию ///
    var setDefaultStyle = function () {
       filterBigPicture.removeAttribute('class');
       filterBigPicture.style.filter = '';
@@ -22,6 +24,7 @@
       effectBarValue.defaultValue = '100';
    };
 
+   /// Добавление фильтра к фотографии ///
    var addEffect = function (evt) {
       var effectName = evt.target.value;
 
@@ -37,6 +40,7 @@
 
    pictureEffect.addEventListener('click', addEffect);
 
+   /// Расчет уровня эффекта фильтра ///
    var calcEffectLevel = function () {
       var currentLevel = parseInt(effectBarPin.style.left, 10) / 100;
 
@@ -55,12 +59,14 @@
       };
    };
 
+   /// Установка ползунка перемещения ///
    var setPinPosition = function (value) {
       effectBarValue.value = Math.round(value);
       effectBarPin.style.left = value + '%';
       effectBarDepth.style.width = value + '%';
    };
 
+   /// Расчет текущего положения ползунка ///
    effectBarPin.addEventListener('mousedown', function (evt) {
       evt.preventDefault();
 
@@ -100,8 +106,7 @@
       document.addEventListener('mouseup', onMouseUp);
    });
 
-   /// Photo Size ///
-
+   /// Масштаб фотографии ///
    var imgScaleCounter = document.querySelector('.scale__control--value');
    var imgScaleMinus = document.querySelector('.scale__control--smaller');
    var imgScalePlus = document.querySelector('.scale__control--bigger');
@@ -110,10 +115,12 @@
    var MIN_SCALE_VALUE = 25;
    var SCALE_VALUE_STEP = 25;
 
+   /// Получение текущего масштаба фотографии ///
    var getScaleValue = function () {
       return parseInt(imgScaleCounter.value, 10);
    };
 
+   /// Установка масштаба фотографии ///
    var setScaleValue = function (value) {
       if (value >= MIN_SCALE_VALUE && value <= MAX_SCALE_VALUE) {
          imgScaleCounter.defaultValue = value + '%';
