@@ -44,19 +44,24 @@
    /// Отслеживаем 'клик' по DOM-элементу гелереи фотографий ///
    var getOnClickImage = function (evt) {
 
-      /// Сохраняем url фотографии ///
-      var imgUrl = evt.target.getAttribute('src');
+      /// Запускаем проверку выбранного DOM-элемента на наличие необходимого класса /// 
 
-      /// Ищем совпадения по url в массиве фотографий, и создаем новый массив /// 
-      var imgArray = window.data.photos.slice().filter(function (element) {
-         return element.url === imgUrl; 
-      });
+      if (evt.target.classList.contains('picture__img')) {
 
-      /// Создаем объект с информацией о фотографии из нового массива ///
-      var imgObject = imgArray[0];
+         /// Сохраняем url фотографии ///
+         var imgUrl = evt.target.getAttribute('src');
 
-      /// Отрисовываем большую фотографию на основе полученного объекта ///
-      window.preview.bildBigPicture(imgObject);
+         /// Ищем совпадения по url в массиве фотографий, и создаем новый массив /// 
+         var imgArray = window.data.photos.slice().filter(function (element) {
+            return element.url === imgUrl;
+         });
+
+         /// Создаем объект с информацией о фотографии из нового массива ///
+         var imgObject = imgArray[0];
+
+         /// Отрисовываем большую фотографию на основе полученного объекта ///
+         window.preview.bildBigPicture(imgObject);
+      };
    };
 
    /// Вешаем обработчик события 'клика' по галереи фотографий ///
